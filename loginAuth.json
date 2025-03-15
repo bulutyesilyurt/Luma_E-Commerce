@@ -1,0 +1,213 @@
+{
+  "cookies": [
+    {
+      "name": "mage-cache-storage",
+      "value": "%7B%7D",
+      "domain": "magento.softwaretestingboard.com",
+      "path": "/",
+      "expires": 1742124971,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "mage-cache-storage-section-invalidation",
+      "value": "%7B%7D",
+      "domain": "magento.softwaretestingboard.com",
+      "path": "/",
+      "expires": 1742124971,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "mage-cache-sessid",
+      "value": "true",
+      "domain": "magento.softwaretestingboard.com",
+      "path": "/",
+      "expires": 1742124971,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.2.871930531.1742038571",
+      "domain": ".softwaretestingboard.com",
+      "path": "/",
+      "expires": 1776598571.127242,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gid",
+      "value": "GA1.2.1470033676.1742038571",
+      "domain": ".softwaretestingboard.com",
+      "path": "/",
+      "expires": 1742124971,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_gat",
+      "value": "1",
+      "domain": ".softwaretestingboard.com",
+      "path": "/",
+      "expires": 1742038631,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "mage-messages",
+      "value": "",
+      "domain": "magento.softwaretestingboard.com",
+      "path": "/",
+      "expires": 1742042171,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Strict"
+    },
+    {
+      "name": "private_content_version",
+      "value": "e19a5eae114621a755b2d98dda2b145a",
+      "domain": "magento.softwaretestingboard.com",
+      "path": "/",
+      "expires": 1776598571.358725,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "PHPSESSID",
+      "value": "d1e9aa1885d9df9ee89302f2f84df0a3",
+      "domain": ".magento.softwaretestingboard.com",
+      "path": "/",
+      "expires": 1742042172.002195,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "recently_viewed_product",
+      "value": "%7B%7D",
+      "domain": "magento.softwaretestingboard.com",
+      "path": "/",
+      "expires": 1742124971,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "recently_viewed_product_previous",
+      "value": "%7B%7D",
+      "domain": "magento.softwaretestingboard.com",
+      "path": "/",
+      "expires": 1742124971,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "recently_compared_product",
+      "value": "%7B%7D",
+      "domain": "magento.softwaretestingboard.com",
+      "path": "/",
+      "expires": 1742124971,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "recently_compared_product_previous",
+      "value": "%7B%7D",
+      "domain": "magento.softwaretestingboard.com",
+      "path": "/",
+      "expires": 1742124971,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "product_data_storage",
+      "value": "%7B%7D",
+      "domain": "magento.softwaretestingboard.com",
+      "path": "/",
+      "expires": 1742124971,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_1SPG0WZDNF",
+      "value": "GS1.2.1742038571.1.0.1742038571.60.0.0",
+      "domain": ".softwaretestingboard.com",
+      "path": "/",
+      "expires": 1776598571.42739,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "test_cookie",
+      "value": "CheckForPermission",
+      "domain": ".doubleclick.net",
+      "path": "/",
+      "expires": 1742039471.558504,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "X-Magento-Vary",
+      "value": "9bf9a599123e6402b85cde67144717a08b817412",
+      "domain": "magento.softwaretestingboard.com",
+      "path": "/",
+      "expires": 1742042172.002243,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://magento.softwaretestingboard.com",
+      "localStorage": [
+        {
+          "name": "recently_viewed_product",
+          "value": "{}"
+        },
+        {
+          "name": "mage-cache-storage",
+          "value": "{}"
+        },
+        {
+          "name": "mage-cache-storage-section-invalidation",
+          "value": "{}"
+        },
+        {
+          "name": "recently_viewed_product_previous",
+          "value": "{}"
+        },
+        {
+          "name": "product_data_storage",
+          "value": "{}"
+        },
+        {
+          "name": "mage-cache-timeout",
+          "value": "\"2025-03-15T12:36:11.088Z\""
+        },
+        {
+          "name": "recently_compared_product_previous",
+          "value": "{}"
+        },
+        {
+          "name": "recently_compared_product",
+          "value": "{}"
+        }
+      ]
+    }
+  ]
+}
