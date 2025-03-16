@@ -1,3 +1,5 @@
+const { expect } = require('@playwright/test');
+
 exports.Login = class Login {
   /**
    * @param {import('@playwright/test').Page} page
@@ -30,6 +32,17 @@ exports.Login = class Login {
     await this.submitButton.click();
   }
 
+  async loginWithFakePerson(email,password){
+    await this.page.goto(
+      "https://magento.softwaretestingboard.com/customer/account/login/"
+    );
+    await this.emailField.fill(email);
+    await this.passwordField.fill(password);
+    await this.submitButton.click();
+    await this.myAccountText.waitFor({ state: "visible" });
+
+  }
+
   async getTheLoginErrorMessage() {
     const message = (await this.loginErrorMessageBox.textContent())
       .replace(/\s+/g, " ")
@@ -37,7 +50,14 @@ exports.Login = class Login {
     return message;
   }
 
+  async verifyTheErrorMessage() {
+    const errorMessage = await this.getTheLoginErrorMessage();
+    expect(errorMessage).toBe(
+      "The account sign-in was incorrect or your account is disabled temporarily. Please wait and try again later."
+    );
+  }
+
   async navigateToSite() {
-    await this.page.goto("https://magento.softwaretestingboard.com/"); //Since a login is performend in "session_generator.js" file we are utilizing the stored session and directly navigating to the user account.
+    await this.page.goto("https://magento.softwaretestingboard.com/");
   }
 };
