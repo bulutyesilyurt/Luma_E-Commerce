@@ -8,6 +8,12 @@ exports.MyAccount = class MyAccount {
     this.accountDropdown = page.locator(".action.switch").first();
     this.myAccountLink = page.locator("a", { hasText: "My Account" }).first();
     this.userInfo = page.locator(".box-information .box-content p");
+    this.signOutLink = page
+      .locator("a", { hasText: "         Sign Out    " })
+      .first();
+    this.signedOutMessage = page.locator(".base", {
+      hasText: "You are signed out",
+    });
   }
 
   async getUserInfo() {
@@ -28,5 +34,11 @@ exports.MyAccount = class MyAccount {
     console.log(
       `The user verification information - Account details in webpage: ${userInfo}`
     );
+  }
+
+  async verifySigningOut() {
+    expect(this.signedOutMessage).toBeVisible()
+    const actualMessage = await this.signedOutMessage.textContent()
+    expect(actualMessage).toBe("You are signed out")
   }
 };
