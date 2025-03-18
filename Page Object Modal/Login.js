@@ -1,4 +1,4 @@
-const { expect } = require('@playwright/test');
+const { expect } = require("@playwright/test");
 
 exports.Login = class Login {
   /**
@@ -11,12 +11,13 @@ exports.Login = class Login {
     this.submitButton = page.locator(".action.login.primary");
     this.myAccountText = page.locator(".base", { hasText: "My Account" });
     this.loginErrorMessageBox = page.locator('[data-ui-id="message-error"]');
+    this.loginURL =
+      "https://magento.softwaretestingboard.com/customer/account/login/";
+    this.baseURL = "https://magento.softwaretestingboard.com/";
   }
 
   async performValidLogin() {
-    await this.page.goto(
-      "https://magento.softwaretestingboard.com/customer/account/login/"
-    );
+    await this.page.goto(this.loginURL);
     await this.emailField.fill("automationtest@playwright.com");
     await this.passwordField.fill("exampletest1!");
     await this.submitButton.click();
@@ -24,23 +25,18 @@ exports.Login = class Login {
   }
 
   async performInvalidLogin() {
-    await this.page.goto(
-      "https://magento.softwaretestingboard.com/customer/account/login/"
-    );
+    await this.page.goto(this.loginURL);
     await this.emailField.fill("automationtest@playwright.com");
     await this.passwordField.fill("wrongPassword");
     await this.submitButton.click();
   }
 
-  async loginWithFakePerson(email,password){
-    await this.page.goto(
-      "https://magento.softwaretestingboard.com/customer/account/login/"
-    );
+  async loginWithFakePerson(email, password) {
+    await this.page.goto(this.loginURL);
     await this.emailField.fill(email);
     await this.passwordField.fill(password);
     await this.submitButton.click();
     await this.myAccountText.waitFor({ state: "visible" });
-
   }
 
   async getTheLoginErrorMessage() {
@@ -58,6 +54,6 @@ exports.Login = class Login {
   }
 
   async navigateToSite() {
-    await this.page.goto("https://magento.softwaretestingboard.com/");
+    await this.page.goto(this.baseURL);
   }
 };

@@ -2,6 +2,10 @@ const { test, expect } = require("@playwright/test");
 const { MyAccount } = require("../Page Object Modal/MyAccount");
 const { Login } = require("../Page Object Modal/Login");
 const { CreateAnAccount } = require("../Page Object Modal/CreateAnAccount");
+const {
+  HeaderAndNavSection,
+} = require("../Page Object Modal/HeaderAndNavSection");
+const { MainPage } = require("../Page Object Modal/MainPage");
 
 test.describe("Example Regression Test Suite for Luma E-Commerce App", () => {
   test.beforeEach("Navigating to the website", async ({ page }) => {
@@ -89,4 +93,63 @@ test.describe("Example Regression Test Suite for Luma E-Commerce App", () => {
     await context2.close();
   });
 
+  test("TC#6 Verify that user can search and display a product", async ({
+    page,
+  }) => {
+    const headerAndNavSection = new HeaderAndNavSection(page);
+    const mainPage = new MainPage(page);
+
+    const item = "Jupiter";
+    const itemName = ["Jupiter All-Weather Trainer"];
+    const itemPrice = ["$56.99"];
+
+    await headerAndNavSection.searchAnItem(item);
+    await mainPage.verifySearchInput(item);
+    await mainPage.verifyDisplayedItemCount(1);
+    await mainPage.verifyItemName(itemName);
+    await mainPage.verifyItemPrice(itemPrice);
+  });
+
+  test("TC#7 Verify that user can search and display multiple products", async ({
+    page,
+  }) => {
+    const headerAndNavSection = new HeaderAndNavSection(page);
+    const mainPage = new MainPage(page);
+
+    const item = "Lightweight";
+    const itemName = [
+      "Marco Lightweight Active Hoodie",
+      "Cronus Yoga Pant",
+      "Aether Gym Pant",
+      "Artemis Running Short",
+      "Breathe-Easy Tank",
+      "Antonia Racer Tank",
+      "Lucia Cross-Fit Bra",
+      "Prima Compete Bra Top",
+      "Desiree Fitness Tee",
+      "Gwyn Endurance Tee",
+      "Diva Gym Tee",
+      "Minerva LumaTech™ V-Tee",
+    ];
+    const itemPrice = [
+      "$74.00",
+      "$38.40",
+      "$59.20",
+      "$45.00",
+      "$34.00",
+      "$34.00",
+      "$39.00",
+      "$24.00",
+      "$24.00",
+      "$24.00",
+      "$32.00",
+      "$32.00",
+    ];
+
+    await headerAndNavSection.searchAnItem(item);
+    await mainPage.verifySearchInput(item);
+    await mainPage.verifyDisplayedItemCount(12);
+    await mainPage.verifyItemName(itemName);
+    await mainPage.verifyItemPrice(itemPrice);
+  });
 });
