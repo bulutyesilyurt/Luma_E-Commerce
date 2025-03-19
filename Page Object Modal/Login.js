@@ -1,5 +1,5 @@
 const { expect } = require("@playwright/test");
-
+const fs = require("fs");
 exports.Login = class Login {
   /**
    * @param {import('@playwright/test').Page} page
@@ -31,10 +31,13 @@ exports.Login = class Login {
     await this.submitButton.click();
   }
 
-  async loginWithFakePerson(email, password) {
+  async loginWithFakePerson() {
+    const fakeUser = JSON.parse(
+      fs.readFileSync("fake_people_testData/fakePerson.txt", "utf-8")
+    );
     await this.page.goto(this.loginURL);
-    await this.emailField.fill(email);
-    await this.passwordField.fill(password);
+    await this.emailField.fill(fakeUser.email);
+    await this.passwordField.fill(fakeUser.password);
     await this.submitButton.click();
     await this.myAccountText.waitFor({ state: "visible" });
   }

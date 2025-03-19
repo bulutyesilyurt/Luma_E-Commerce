@@ -57,16 +57,10 @@ test.describe("Example Regression Test Suite for Luma E-Commerce App", () => {
     const context = await browser.newContext({ storageState: "noAuth.json" });
     const page = await context.newPage();
     const login = new Login(page);
-    const createAnAccount = new CreateAnAccount(page);
     const myAccount = new MyAccount(page);
 
-    const fakeUser = await createAnAccount.getFakeUserDetails();
-    await login.loginWithFakePerson(fakeUser.email, fakeUser.password);
-    await myAccount.verifyFakeUserDetails(
-      fakeUser.firstName,
-      fakeUser.lastName,
-      fakeUser.email
-    );
+    await login.loginWithFakePerson();
+    await myAccount.verifyFakeUserDetails();
     await context.close();
   });
 

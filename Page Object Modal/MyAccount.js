@@ -1,4 +1,5 @@
 const { expect } = require("@playwright/test");
+const fs = require("fs");
 exports.MyAccount = class MyAccount {
   /**
    * @param {import('@playwright/test').Page} page
@@ -28,17 +29,22 @@ exports.MyAccount = class MyAccount {
     expect(userInfo).toBe("example test automationtest@playwright.com");
   }
 
-  async verifyFakeUserDetails(name, surname, email) {
+  async verifyFakeUserDetails() {
     const userInfo = await this.getUserInfo();
-    expect(userInfo).toBe(`${name} ${surname} ${email}`);
+    const fakeUser = JSON.parse(
+      fs.readFileSync("fake_people_testData/fakePerson.txt", "utf-8")
+    );
+    expect(userInfo).toBe(
+      `${fakeUser.firstName} ${fakeUser.lastName} ${fakeUser.email}`
+    );
     console.log(
       `The user verification information - Account details in webpage: ${userInfo}`
     );
   }
 
   async verifySigningOut() {
-    expect(this.signedOutMessage).toBeVisible()
-    const actualMessage = await this.signedOutMessage.textContent()
-    expect(actualMessage).toBe("You are signed out")
+    expect(this.signedOutMessage).toBeVisible();
+    const actualMessage = await this.signedOutMessage.textContent();
+    expect(actualMessage).toBe("You are signed out");
   }
 };
