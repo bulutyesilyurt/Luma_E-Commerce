@@ -18,7 +18,6 @@ test.describe("Example Regression Test Suite for Luma E-Commerce App", () => {
   }) => {
     const myAccount = new MyAccount(page);
 
-    await page.waitForTimeout(1000);
     await myAccount.accountDropdown.click();
     await myAccount.myAccountLink.click();
     await myAccount.verifyUserDetails();
@@ -145,5 +144,18 @@ test.describe("Example Regression Test Suite for Luma E-Commerce App", () => {
     await mainPage.verifyDisplayedItemCount(12);
     await mainPage.verifyItemName(itemName);
     await mainPage.verifyItemPrice(itemPrice);
+  });
+
+  test("TC#7 Verify that the user can perform navigation by using the nav component and breadcrumbs are updated correspondingly", async ({
+    page,
+  }) => {
+    const headerAndNavSection = new HeaderAndNavSection(page);
+
+    await headerAndNavSection.manCategory.hover();
+    await headerAndNavSection.manTops.hover();
+    await headerAndNavSection.manJackets.click();
+
+    const breadCrumbs = ["Home", "Men", "Tops", "Jackets"];
+    await headerAndNavSection.validateBreadCrumbs(breadCrumbs);
   });
 });
