@@ -12,6 +12,8 @@ exports.HeaderAndNavSection = class HeaderAndNavSection {
     this.manCategory = page.locator(".nav-sections .nav-3");
     this.manTops = this.manCategory.locator(".nav-3-1");
     this.manJackets = this.manTops.locator(".nav-3-1-1");
+    this.manBottoms = this.manCategory.locator(".nav-3-2");
+    this.manPants = this.manBottoms.locator(".nav-3-2-1")
     this.currentBreadcrumbs = page.locator(".breadcrumbs li");
   }
 

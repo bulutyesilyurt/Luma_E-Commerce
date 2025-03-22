@@ -146,7 +146,7 @@ test.describe("Example Regression Test Suite for Luma E-Commerce App", () => {
     await mainPage.verifyItemPrice(itemPrice);
   });
 
-  test("TC#7 Verify that the user can perform navigation by using the nav component and breadcrumbs are updated correspondingly", async ({
+  test("TC#8 Verify that the user can perform navigation by using the nav component and breadcrumbs are updated correspondingly", async ({
     page,
   }) => {
     const headerAndNavSection = new HeaderAndNavSection(page);
@@ -157,5 +157,35 @@ test.describe("Example Regression Test Suite for Luma E-Commerce App", () => {
 
     const breadCrumbs = ["Home", "Men", "Tops", "Jackets"];
     await headerAndNavSection.validateBreadCrumbs(breadCrumbs);
+  });
+
+  test("TC#9 Verify that the user can filter the results by using the filter section", async ({
+    page,
+  }) => {
+    const headerAndNavSection = new HeaderAndNavSection(page);
+    const mainPage = new MainPage(page);
+
+    await headerAndNavSection.manCategory.hover();
+    await headerAndNavSection.manBottoms.hover();
+    await headerAndNavSection.manPants.click();
+    await page.waitForLoadState("networkidle");
+
+    await mainPage.styleFilters.click();
+    await mainPage.baseLayer.click();
+    await page.waitForLoadState("networkidle");
+    await mainPage.colorFilters.click();
+    await mainPage.blackColorFilter.click();
+    await page.waitForLoadState("networkidle");
+
+    const currentFilterValues = ["Base Layer", "Black"];
+    await mainPage.verifyAppliedFilters(currentFilterValues);
+
+    await mainPage.verifyTheSelectedColor(mainPage.blackColorOnProductItem);
+    await mainPage.verifyDisplayedItemCount(2);
+
+    const itemName = ["Livingston All-Purpose Tight", "Kratos Gym Pant"];
+    const itemPrice = ["$60.00", "$45.60"];
+    await mainPage.verifyItemName(itemName);
+    await mainPage.verifyItemPrice(itemPrice);
   });
 });

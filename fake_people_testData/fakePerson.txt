@@ -1,6 +1,6 @@
 {
-  "firstName": "Virginie",
-  "lastName": "Kuhlman",
-  "email": "Stefan.Shanahan@yahoo.com",
-  "password": "JpzjGqHW4jK61t6"
+  "firstName": "Susan",
+  "lastName": "Keeling",
+  "email": "Mazie.Borer@yahoo.com",
+  "password": "9trDGd_dkhmEVBO"
 }

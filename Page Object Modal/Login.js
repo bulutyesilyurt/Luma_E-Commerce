@@ -21,7 +21,7 @@ exports.Login = class Login {
     await this.emailField.fill("automationtest@playwright.com");
     await this.passwordField.fill("exampletest1!");
     await this.submitButton.click();
-    //await this.myAccountText.waitFor({ state: "visible" });
+    await this.myAccountText.waitFor({ state: "visible" });
   }
 
   async performInvalidLogin() {
