@@ -17,6 +17,7 @@ exports.Login = class Login {
   }
 
   async performValidLogin() {
+    //This method logs in the app with the account created for the demo UI automation
     await this.page.goto(this.loginURL);
     await this.emailField.fill("automationtest@playwright.com");
     await this.passwordField.fill("exampletest1!");
@@ -25,6 +26,7 @@ exports.Login = class Login {
   }
 
   async performInvalidLogin() {
+    //This method performs a login with invalid credentials
     await this.page.goto(this.loginURL);
     await this.emailField.fill("automationtest@playwright.com");
     await this.passwordField.fill("wrongPassword");
@@ -32,6 +34,7 @@ exports.Login = class Login {
   }
 
   async loginWithFakePerson() {
+    //This method performs a login with the credentials that is stored fakePerson.txt
     const fakeUser = JSON.parse(
       fs.readFileSync("fake_people_testData/fakePerson.txt", "utf-8")
     );
@@ -43,6 +46,7 @@ exports.Login = class Login {
   }
 
   async getTheLoginErrorMessage() {
+    //This method retrieves the falied login message
     const message = (await this.loginErrorMessageBox.textContent())
       .replace(/\s+/g, " ")
       .trim();
@@ -50,6 +54,7 @@ exports.Login = class Login {
   }
 
   async verifyTheErrorMessage() {
+    //This method validates if the failed login message is corresponding
     const errorMessage = await this.getTheLoginErrorMessage();
     expect(errorMessage).toBe(
       "The account sign-in was incorrect or your account is disabled temporarily. Please wait and try again later."
@@ -57,8 +62,8 @@ exports.Login = class Login {
   }
 
   async navigateToSite() {
+    //This method navigates to the mainpage of the demo web app + a second of time out ensures the content loads properly and reduces test flakiness
     await this.page.goto(this.baseURL);
-    //await this.page.waitForLoadState("networkidle");
     await this.page.waitForTimeout(1000)
   }
 };

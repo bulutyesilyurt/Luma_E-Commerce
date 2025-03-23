@@ -29,6 +29,7 @@ exports.CreateAnAccount = class CreateAnAccount {
   }
 
   async createNewAccount() {
+    //This method creates a new account and saves account details in fakePerson.txt
     const fakeUser = {
       firstName: faker.person.firstName(),
       lastName: faker.person.lastName(),
@@ -48,11 +49,13 @@ exports.CreateAnAccount = class CreateAnAccount {
   }
 
   async getFakeUserDetails() {
+    //This method retrieves the fakePerson object from fakePerson.txt
     const fakeUser = fs.readFileSync(this.userDir, "utf-8");
     return JSON.parse(fakeUser);
   }
 
   async verifyUserRegistration() {
+    //This method verifies that the new user account is saved and displayed on the web app correspondingly
     await this.registeredMessage.waitFor({ state: "visible" });
     const message = await this.registeredMessage.textContent();
     expect(message).toBe("Thank you for registering with Main Website Store.");

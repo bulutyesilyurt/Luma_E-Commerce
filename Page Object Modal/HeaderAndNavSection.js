@@ -18,12 +18,14 @@ exports.HeaderAndNavSection = class HeaderAndNavSection {
   }
 
   async searchAnItem(item) {
+    //This method searches for an item by using the searchbar in the app
     await this.searchBar.fill(item);
     await this.searchButton.click();
     await this.page.waitForLoadState("networkidle");
   }
 
   async validateBreadCrumbs(breadCrumbs) {
+    //This method verifies the breadcrumbs are properly displayed after navigating a certain location
     const countOfBreadCrumbs = await this.currentBreadcrumbs.count();
 
     for (let i = 0; i < countOfBreadCrumbs; i++) {

@@ -15,7 +15,7 @@ import { defineConfig, devices } from "@playwright/test";
 export default defineConfig({
   globalSetup: "./session_generator.js",
   timeout: 60000,
-  expect: {timeout:60000},
+  expect: {timeout:15000},
   testDir: "./tests",
   /* Run tests in files in parallel */
   fullyParallel: false,

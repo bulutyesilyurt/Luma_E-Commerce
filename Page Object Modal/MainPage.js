@@ -13,7 +13,6 @@ exports.MainPage = class MainPage {
     this.productItemPrice = (i) => this.productItem.nth(i).locator(".price");
     this.searchResults = page.locator(".results");
     this.currentFilters = page.locator(".filter-current .filter-value");
-    this.selectedFilterValue = this.currentFilters.locator(".filter-value");
     this.styleFilters = page.locator(".filter-options-item", {
       hasText: "Style",
     });
@@ -25,9 +24,15 @@ exports.MainPage = class MainPage {
     this.blackColorOnProductItem = page.locator(
       "#option-label-color-93-item-49"
     );
+    this.clearAllFiltersButton = page.locator(".filter-clear");
+    this.removeFilterButton = (filterValue) =>
+      page.locator(".filter-current li", { hasText: filterValue }).locator("a");
+    this.filterRow = (filterValue) =>
+      page.locator(".filter-current li", { hasText: filterValue });
   }
 
   async verifySearchInput(searchedItem) {
+    //This method verifies that after performing a search, the search result value is displayed correspondingly
     const searchItem = searchedItem;
     const itemNameDisplayed = await this.searchResultsText.textContent();
 
@@ -35,11 +40,13 @@ exports.MainPage = class MainPage {
   }
 
   async verifyDisplayedItemCount(expectedCount) {
+    //This method verifies that there are expected amount of products items are shown in the current page
     const actualCount = await this.productItem.count();
     expect(actualCount).toBe(expectedCount);
   }
 
   async verifyItemName(itemName) {
+    //This method verifies that displayed items have the expected names in the current page
     const itemCount = await this.productItem.count();
 
     for (let i = 0; i < itemCount; i++) {
@@ -51,6 +58,7 @@ exports.MainPage = class MainPage {
   }
 
   async verifyItemPrice(itemPrice) {
+    //This method verifies that displayed items have the expected prices in the current page
     const itemCount = await this.productItem.count();
 
     for (let i = 0; i < itemCount; i++) {
@@ -62,6 +70,7 @@ exports.MainPage = class MainPage {
   }
 
   async verifyAppliedFilters(filters) {
+    //This method verifies that after appyling certain filters, those are displayed in the filters section correspondingly
     const filtersCount = await this.currentFilters.count();
     for (let i = 0; i < filtersCount; i++) {
       const filterValue = await this.currentFilters.nth(i).textContent();
@@ -70,9 +79,35 @@ exports.MainPage = class MainPage {
   }
 
   async verifyTheSelectedColor(color) {
+    //This method verifies that after selecting a color filter, that color is applied on all of the displayed product items in the current page
     const countOfColor = await color.count();
     for (let i = 0; i < countOfColor; i++) {
-      await expect(color.nth(i)).toHaveAttribute('aria-checked', 'true');
+      await expect(await color.nth(i)).toHaveAttribute("aria-checked", "true");
     }
+  }
+
+  async verifyTheUnselectedColor(color) {
+    //This method verifies that after DESELECTING a color filter, the color is not applied on any of the displayed product items in the current page
+    const countOfColor = await color.count();
+    for (let i = 0; i < countOfColor; i++) {
+      await expect(await color.nth(i)).toHaveAttribute("aria-checked", "false");
+    }
+  }
+
+  async verifyNoFiltersApplied() {
+    //This method verifies that after removing all of the filters, there is no filter option is displayed in the filter section and the filter section is not visible anymore
+    await expect(this.currentFilters).toBeHidden();
+    await expect(this.currentFilters).toHaveCount(0);
+  }
+
+  async removeAFilter(filterValue) {
+    //This method removes all of the applied filters by clicking clear all button
+    await this.removeFilterButton(filterValue).click();
+  }
+
+  async verifyTheRemovedFilter(filterValue) {
+    //This method verifies that after certain filter value is removed individually, it is not visible anymore inside the filter section
+    const filterRow = this.filterRow(filterValue);
+    await expect(filterRow).toBeHidden();
   }
 };

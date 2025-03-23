@@ -72,7 +72,6 @@ test.describe("Example Regression Test Suite for Luma E-Commerce App", () => {
     const myAccount = new MyAccount(page1);
 
     await login.navigateToSite();
-    await page1.waitForTimeout(1000);
     await myAccount.accountDropdown.click();
     await myAccount.signOutLink.click();
     await myAccount.verifySigningOut();
@@ -187,5 +186,61 @@ test.describe("Example Regression Test Suite for Luma E-Commerce App", () => {
     const itemPrice = ["$60.00", "$45.60"];
     await mainPage.verifyItemName(itemName);
     await mainPage.verifyItemPrice(itemPrice);
+  });
+
+  test("TC#10 Verify that the user can remove the all of the applied filters with clear all button", async ({
+    page,
+  }) => {
+    const headerAndNavSection = new HeaderAndNavSection(page);
+    const mainPage = new MainPage(page);
+
+    await headerAndNavSection.manCategory.hover();
+    await headerAndNavSection.manBottoms.hover();
+    await headerAndNavSection.manPants.click();
+    await page.waitForLoadState("networkidle");
+
+    await mainPage.styleFilters.click();
+    await mainPage.baseLayer.click();
+    await page.waitForLoadState("networkidle");
+    await mainPage.colorFilters.click();
+    await mainPage.blackColorFilter.click();
+    await page.waitForLoadState("networkidle");
+
+    await mainPage.clearAllFiltersButton.click();
+    await page.waitForLoadState("networkidle");
+    await mainPage.verifyNoFiltersApplied();
+    await mainPage.verifyDisplayedItemCount(12);
+    await mainPage.verifyTheUnselectedColor(mainPage.blackColorOnProductItem);
+  });
+
+  test("TC#11 Verify that the user can remove filters individually", async ({
+    page,
+  }) => {
+    const headerAndNavSection = new HeaderAndNavSection(page);
+    const mainPage = new MainPage(page);
+
+    await headerAndNavSection.manCategory.hover();
+    await headerAndNavSection.manBottoms.hover();
+    await headerAndNavSection.manPants.click();
+    await page.waitForLoadState("networkidle");
+
+    await mainPage.styleFilters.click();
+    await mainPage.baseLayer.click();
+    await page.waitForLoadState("networkidle");
+    await mainPage.colorFilters.click();
+    await mainPage.blackColorFilter.click();
+    await page.waitForLoadState("networkidle");
+
+    const currentFilterValues = ["Base Layer", "Black"];
+    await mainPage.removeAFilter(currentFilterValues[0]);
+    await page.waitForLoadState("networkidle");
+    await mainPage.verifyTheRemovedFilter(currentFilterValues[0]);
+    await mainPage.verifyDisplayedItemCount(7);
+
+    await mainPage.removeAFilter(currentFilterValues[1]);
+    await page.waitForLoadState("networkidle");
+    await mainPage.verifyTheRemovedFilter(currentFilterValues[1]);
+    await mainPage.verifyTheUnselectedColor(mainPage.blackColorOnProductItem);
+    await mainPage.verifyDisplayedItemCount(12);
   });
 });
