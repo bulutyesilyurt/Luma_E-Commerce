@@ -19,8 +19,8 @@ exports.Login = class Login {
   async performValidLogin() {
     //This method logs in the app with the account created for the demo UI automation
     await this.page.goto(this.loginURL);
-    await this.emailField.fill("automationtest@playwright.com");
-    await this.passwordField.fill("exampletest1!");
+    await this.emailField.fill(process.env.USER_Email);
+    await this.passwordField.fill(process.env.PASSWORD);
     await this.submitButton.click();
     await this.myAccountText.waitFor({ state: "visible" });
   }

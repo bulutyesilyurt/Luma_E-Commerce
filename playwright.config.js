@@ -1,5 +1,7 @@
 // @ts-check
 import { defineConfig, devices } from "@playwright/test";
+const path = require("path");
+require("dotenv").config({ path: path.resolve(__dirname, ".env") });
 
 /**
  * Read environment variables from file.
