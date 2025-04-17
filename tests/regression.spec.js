@@ -243,4 +243,74 @@ test.describe("Example Regression Test Suite for Luma E-Commerce App", () => {
     await mainPage.verifyTheUnselectedColor(mainPage.blackColorOnProductItem);
     await mainPage.verifyDisplayedItemCount(12);
   });
+
+  test("TC#12 Verify that the user can add a products to cart", async ({
+    page,
+    context,
+  }) => {
+    const headerAndNavSection = new HeaderAndNavSection(page);
+    const mainPage = new MainPage(page);
+
+    await headerAndNavSection.manCategory.hover();
+    await headerAndNavSection.manTops.hover();
+    await headerAndNavSection.manJackets.click();
+    await page.waitForLoadState("networkidle");
+
+    const itemNames = ["Montana Wind Jacket", "Jupiter All-Weather Trainer"];
+    const itemSizes = ["M", "L"];
+    const itemColors = ["Black", "Blue"];
+    const itemBasePrices = [49.0, 56.99];
+    const itemQuantities = [1, 1];
+
+    await mainPage.addItemToCart(itemNames, itemSizes, itemColors);
+    await headerAndNavSection.myCartLoadingIcon.waitFor({ state: "hidden" });
+    await headerAndNavSection.myCartIcon.click();
+    await headerAndNavSection.verifyTotalItemCountInMiniCart(2);
+    await headerAndNavSection.verifyItemDetailsInMiniCart(
+      itemNames,
+      itemSizes,
+      itemColors,
+      itemBasePrices,
+      itemQuantities
+    );
+
+    await headerAndNavSection.verifyTheTotalAmount(
+      itemBasePrices,
+      itemQuantities
+    );
+
+    await context.storageState({ path: "./loginAuth.json" });
+  });
+
+  test("TC#13 Verify that the user can edit quantity in the cart", async ({
+    page,
+  }) => {
+    const headerAndNavSection = new HeaderAndNavSection(page);
+    const itemNames = ["Montana Wind Jacket", "Jupiter All-Weather Trainer"];
+    const itemBasePrices = [49.0, 56.99];
+    let itemQuantities = [1, 1];
+    let totalQuantity = itemQuantities.reduce((acc, curr) => acc + curr, 0);
+
+    await headerAndNavSection.myCartIcon.click();
+    await headerAndNavSection.verifyTotalItemCountInMiniCart(totalQuantity);
+    await headerAndNavSection.verifyTheTotalAmount(
+      itemBasePrices,
+      itemQuantities
+    );
+
+    itemQuantities = [2, 3];
+    await headerAndNavSection.updateItemQuantityInMiniCart(
+      itemNames,
+      itemQuantities
+    );
+
+    await headerAndNavSection.verifyTheTotalAmount(
+      itemBasePrices,
+      itemQuantities
+    );
+
+    totalQuantity = itemQuantities.reduce((acc, curr) => acc + curr, 0);
+    await headerAndNavSection.verifyTotalItemCountInMiniCart(totalQuantity);
+
+  });
 });

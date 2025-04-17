@@ -7,7 +7,7 @@ exports.MainPage = class MainPage {
   constructor(page) {
     this.page = page;
     this.searchResultsText = page.locator(".base");
-    this.productItem = page.locator(".product-item");
+    this.productItem = page.locator(".product-items .product-item");
     this.productItemName = (i) =>
       this.productItem.nth(i).locator(".product-item-link");
     this.productItemPrice = (i) => this.productItem.nth(i).locator(".price");
@@ -24,11 +24,16 @@ exports.MainPage = class MainPage {
     this.blackColorOnProductItem = page.locator(
       "#option-label-color-93-item-49"
     );
+    this.productSizeSelector = (size) =>
+      page.locator(".swatch-option", { has: page.locator(`text="${size}"`) });
+    this.productColorSelector = (color) =>
+      page.locator(`[option-label="${color}"]`);
     this.clearAllFiltersButton = page.locator(".filter-clear");
     this.removeFilterButton = (filterValue) =>
       page.locator(".filter-current li", { hasText: filterValue }).locator("a");
     this.filterRow = (filterValue) =>
       page.locator(".filter-current li", { hasText: filterValue });
+    this.addToCartButton = page.locator(".action.tocart.primary");
   }
 
   async verifySearchInput(searchedItem) {
@@ -109,5 +114,32 @@ exports.MainPage = class MainPage {
     //This method verifies that after certain filter value is removed individually, it is not visible anymore inside the filter section
     const filterRow = this.filterRow(filterValue);
     await expect(filterRow).toBeHidden();
+  }
+
+  async addItemToCart(itemName, size, color) {
+    const countOfProducts = await itemName.length;
+    for (let k = 0; k < countOfProducts; k++) {
+      const countOfItems = await this.productItem.count();
+      for (let i = 0; i < countOfItems; i++) {
+        const itemNameOnThePage = (
+          await this.productItemName(i).textContent()
+        ).trim();
+        if (itemNameOnThePage === itemName[k]) {
+          await this.productItem
+            .nth(i)
+            .locator(this.productSizeSelector(size[k]))
+            .click();
+          await this.page.waitForLoadState("networkidle");
+          await this.productItem
+            .nth(i)
+            .locator(this.productColorSelector(color[k]))
+            .click();
+          await this.page.waitForLoadState("networkidle");
+          await this.productItem.nth(i).locator(this.addToCartButton).click();
+          await this.page.waitForLoadState("networkidle");
+          break;
+        }
+      }
+    }
   }
 };
