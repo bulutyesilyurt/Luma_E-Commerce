@@ -244,7 +244,7 @@ test.describe("Example Regression Test Suite for Luma E-Commerce App", () => {
     await mainPage.verifyDisplayedItemCount(12);
   });
 
-  test("TC#12 Verify that the user can add a products to cart", async ({
+  test("TC#12 Verify that the user can add products to the cart", async ({
     page,
     context,
   }) => {
@@ -311,6 +311,20 @@ test.describe("Example Regression Test Suite for Luma E-Commerce App", () => {
 
     totalQuantity = itemQuantities.reduce((acc, curr) => acc + curr, 0);
     await headerAndNavSection.verifyTotalItemCountInMiniCart(totalQuantity);
+  });
 
+  test("TC#14 Verify that the user can remove all items in the cart", async ({
+    page,
+    context,
+  }) => {
+    const headerAndNavSection = new HeaderAndNavSection(page);
+    const itemNames = ["Montana Wind Jacket", "Jupiter All-Weather Trainer"];
+
+    await headerAndNavSection.myCartIcon.click();
+    await headerAndNavSection.deleteItemsInMiniCart(itemNames);
+    await expect(headerAndNavSection.noItemInCartText).toBeVisible();
+    await expect(headerAndNavSection.totalPrice).toBeHidden();
+    await expect(headerAndNavSection.itemCountInMiniCart).toBeHidden();
+    await context.storageState({ path: "./loginAuth.json" });
   });
 });

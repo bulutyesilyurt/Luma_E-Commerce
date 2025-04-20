@@ -28,6 +28,11 @@ exports.HeaderAndNavSection = class HeaderAndNavSection {
     this.itemQuantity = page.locator(".cart-item-qty");
     this.updateQuantityButton = page.locator(".update-cart-item");
     this.totalPrice = this.miniCartContent.locator(".subtotal .price");
+    this.deleteIconInMiniCart = page.locator(".delete");
+    this.confirmDeletionOfItem = page.locator(".action-accept");
+    this.noItemInCartText = page.locator(
+      "text=You have no items in your shopping cart."
+    );
   }
 
   async searchAnItem(item) {
@@ -120,6 +125,17 @@ exports.HeaderAndNavSection = class HeaderAndNavSection {
       await targetItem
         .locator(this.updateQuantityButton)
         .waitFor({ state: "hidden" });
+      await this.page.waitForTimeout(1000);
+    }
+  }
+
+  async deleteItemsInMiniCart(itemName) {
+    const itemCount = itemName.length;
+
+    for (let i = 0; i < itemCount; i++) {
+      const targetItem = this.itemsInMiniCart(itemName[i]);
+      await targetItem.locator(this.deleteIconInMiniCart).click();
+      await this.confirmDeletionOfItem.click();
       await this.page.waitForTimeout(1000)
     }
   }
