@@ -64,6 +64,6 @@ exports.Login = class Login {
   async navigateToSite() {
     //This method navigates to the mainpage of the demo web app + a second of time out ensures the content loads properly and reduces test flakiness
     await this.page.goto(this.baseURL);
-    await this.page.waitForTimeout(1000)
+    await this.page.waitForTimeout(3000)
   }
 };

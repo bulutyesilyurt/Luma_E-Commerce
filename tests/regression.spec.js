@@ -6,11 +6,19 @@ const {
   HeaderAndNavSection,
 } = require("../Page Object Modal/HeaderAndNavSection");
 const { MainPage } = require("../Page Object Modal/MainPage");
+const { CheckOutPage } = require("../Page Object Modal/CheckOutPage");
+
+const itemNames = ["Montana Wind Jacket", "Jupiter All-Weather Trainer"];
+const itemSizes = ["M", "L"];
+const itemColors = ["Black", "Blue"];
+const itemBasePrices = [49.0, 56.99];
+let itemQuantities;
 
 test.describe("Example Regression Test Suite for Luma E-Commerce App", () => {
   test.beforeEach("Navigating to the website", async ({ page }) => {
     const login = new Login(page);
     await login.navigateToSite();
+    itemQuantities = [1, 1];
   });
 
   test("TC#1 Verify that the user is logged in with valid credentials", async ({
@@ -256,16 +264,10 @@ test.describe("Example Regression Test Suite for Luma E-Commerce App", () => {
     await headerAndNavSection.manJackets.click();
     await page.waitForLoadState("networkidle");
 
-    const itemNames = ["Montana Wind Jacket", "Jupiter All-Weather Trainer"];
-    const itemSizes = ["M", "L"];
-    const itemColors = ["Black", "Blue"];
-    const itemBasePrices = [49.0, 56.99];
-    const itemQuantities = [1, 1];
-
     await mainPage.addItemToCart(itemNames, itemSizes, itemColors);
     await headerAndNavSection.myCartLoadingIcon.waitFor({ state: "hidden" });
     await headerAndNavSection.myCartIcon.click();
-    await headerAndNavSection.verifyTotalItemCountInMiniCart(2);
+    await headerAndNavSection.verifyTotalItemCountInMiniCart(itemQuantities);
     await headerAndNavSection.verifyItemDetailsInMiniCart(
       itemNames,
       itemSizes,
@@ -286,13 +288,9 @@ test.describe("Example Regression Test Suite for Luma E-Commerce App", () => {
     page,
   }) => {
     const headerAndNavSection = new HeaderAndNavSection(page);
-    const itemNames = ["Montana Wind Jacket", "Jupiter All-Weather Trainer"];
-    const itemBasePrices = [49.0, 56.99];
-    let itemQuantities = [1, 1];
-    let totalQuantity = itemQuantities.reduce((acc, curr) => acc + curr, 0);
 
     await headerAndNavSection.myCartIcon.click();
-    await headerAndNavSection.verifyTotalItemCountInMiniCart(totalQuantity);
+    await headerAndNavSection.verifyTotalItemCountInMiniCart(itemQuantities);
     await headerAndNavSection.verifyTheTotalAmount(
       itemBasePrices,
       itemQuantities
@@ -309,8 +307,7 @@ test.describe("Example Regression Test Suite for Luma E-Commerce App", () => {
       itemQuantities
     );
 
-    totalQuantity = itemQuantities.reduce((acc, curr) => acc + curr, 0);
-    await headerAndNavSection.verifyTotalItemCountInMiniCart(totalQuantity);
+    await headerAndNavSection.verifyTotalItemCountInMiniCart(itemQuantities);
   });
 
   test("TC#14 Verify that the user can remove all items in the cart", async ({
@@ -318,7 +315,6 @@ test.describe("Example Regression Test Suite for Luma E-Commerce App", () => {
     context,
   }) => {
     const headerAndNavSection = new HeaderAndNavSection(page);
-    const itemNames = ["Montana Wind Jacket", "Jupiter All-Weather Trainer"];
 
     await headerAndNavSection.myCartIcon.click();
     await headerAndNavSection.deleteItemsInMiniCart(itemNames);
@@ -326,5 +322,50 @@ test.describe("Example Regression Test Suite for Luma E-Commerce App", () => {
     await expect(headerAndNavSection.totalPrice).toBeHidden();
     await expect(headerAndNavSection.itemCountInMiniCart).toBeHidden();
     await context.storageState({ path: "./loginAuth.json" });
+  });
+
+  test("TC#15 Verify that the user can place an order succesfully", async ({
+    page,
+  }) => {
+    const headerAndNavSection = new HeaderAndNavSection(page);
+    const mainPage = new MainPage(page);
+    const checkOutPage = new CheckOutPage(page);
+
+    await headerAndNavSection.manCategory.hover();
+    await headerAndNavSection.manTops.hover();
+    await headerAndNavSection.manJackets.click();
+    await page.waitForLoadState("networkidle");
+
+    await mainPage.addItemToCart(itemNames, itemSizes, itemColors);
+    await headerAndNavSection.myCartLoadingIcon.waitFor({ state: "hidden" });
+    await headerAndNavSection.myCartIcon.click();
+    await headerAndNavSection.proceedToCheckout.click();
+
+    await page.waitForLoadState("networkidle");
+    if (await checkOutPage.selectedAdress.isVisible()) {
+      await checkOutPage.basicShippingOption.check();
+      await checkOutPage.nextButton.click();
+    } else {
+      await checkOutPage.fillDeliveryAdress();
+      await checkOutPage.basicShippingOption.check();
+      await checkOutPage.nextButton.click();
+    }
+
+    await checkOutPage.shippingDetails.waitFor({ state: "visible" });
+    await checkOutPage.loaderInOrderSummary.waitFor({ state: "hidden" });
+    await checkOutPage.verifyTotalItemCountInSummaryBlock(itemQuantities);
+    await checkOutPage.verifyTheTotalAmount(itemBasePrices, itemQuantities);
+    await checkOutPage.expandItemsInSummaryBlock.click();
+    await checkOutPage.verifyItemDetailsInSummaryBlock(
+      itemNames,
+      itemSizes,
+      itemColors,
+      itemBasePrices,
+      itemQuantities
+    );
+    await checkOutPage.verifyShippingDetails();
+    await checkOutPage.placeAnOrderButton.click();
+    await checkOutPage.orderConfirmationTitle.waitFor({ state: "visible" });
+    await checkOutPage.saveOrderNumber();
   });
 });

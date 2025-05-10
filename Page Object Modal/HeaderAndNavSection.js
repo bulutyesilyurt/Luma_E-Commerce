@@ -33,6 +33,7 @@ exports.HeaderAndNavSection = class HeaderAndNavSection {
     this.noItemInCartText = page.locator(
       "text=You have no items in your shopping cart."
     );
+    this.proceedToCheckout = page.locator("#top-cart-btn-checkout");
   }
 
   async searchAnItem(item) {
@@ -55,10 +56,12 @@ exports.HeaderAndNavSection = class HeaderAndNavSection {
   }
 
   async verifyTotalItemCountInMiniCart(expectedCount) {
-    const actualCount = parseFloat(
-      await this.itemCountInMiniCart.textContent()
+    const itemQuantitiesTotal = expectedCount.reduce(
+      (total, quantity) => total + quantity,
+      0
     );
-    expect(actualCount).toBe(expectedCount);
+    const actualCount = parseInt(await this.itemCountInMiniCart.textContent());
+    expect(actualCount).toBe(itemQuantitiesTotal);
   }
 
   async verifyItemDetailsInMiniCart(
@@ -136,7 +139,7 @@ exports.HeaderAndNavSection = class HeaderAndNavSection {
       const targetItem = this.itemsInMiniCart(itemName[i]);
       await targetItem.locator(this.deleteIconInMiniCart).click();
       await this.confirmDeletionOfItem.click();
-      await this.page.waitForTimeout(1000)
+      await this.page.waitForTimeout(1000);
     }
   }
 };
