@@ -1,0 +1,1 @@
+This is a demo UI automation project still in progress. A proper description will be added soon. 
