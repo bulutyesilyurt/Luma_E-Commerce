@@ -56,6 +56,7 @@ exports.HeaderAndNavSection = class HeaderAndNavSection {
   }
 
   async verifyTotalItemCountInMiniCart(expectedCount) {
+    //This method verifies the total item counts in the shopping cart based on test data vs what's shown on the webpage
     const itemQuantitiesTotal = expectedCount.reduce(
       (total, quantity) => total + quantity,
       0
@@ -65,6 +66,7 @@ exports.HeaderAndNavSection = class HeaderAndNavSection {
   }
 
   async verifyItemDetailsInMiniCart(
+    //This method compares and verifies that item details are the same based on the test data and what's shown on the webpage
     itemName,
     itemSize,
     itemColor,
@@ -105,6 +107,7 @@ exports.HeaderAndNavSection = class HeaderAndNavSection {
   }
 
   async verifyTheTotalAmount(itemUnitPrice, itemQuantities) {
+    //This method verified that the total amount in the minicart is as expected based on item base prices and quantities
     const actualAmountString = await this.totalPrice.textContent();
     const actualAmount = parseFloat(actualAmountString.replace("$", ""));
 
@@ -117,6 +120,7 @@ exports.HeaderAndNavSection = class HeaderAndNavSection {
   }
 
   async updateItemQuantityInMiniCart(itemName, quantity) {
+    //This method changes the quantity value of an item in the shopping cart (works for single or multiple items in the basket)
     const itemCount = itemName.length;
     const quantityString = quantity.map(String);
 
@@ -133,6 +137,7 @@ exports.HeaderAndNavSection = class HeaderAndNavSection {
   }
 
   async deleteItemsInMiniCart(itemName) {
+    //This method removes an item from the basket (works for single or multiple items in the basket)
     const itemCount = itemName.length;
 
     for (let i = 0; i < itemCount; i++) {

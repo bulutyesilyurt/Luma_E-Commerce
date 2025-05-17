@@ -117,6 +117,7 @@ exports.MainPage = class MainPage {
   }
 
   async addItemToCart(itemName, size, color) {
+    //This method adds an item with desired size and color to the basket (works for single or multiple items)
     const countOfProducts = await itemName.length;
     for (let k = 0; k < countOfProducts; k++) {
       const countOfItems = await this.productItem.count();

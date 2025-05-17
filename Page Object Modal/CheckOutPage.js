@@ -40,6 +40,7 @@ exports.CheckOutPage = class CheckOutPage {
   }
 
   async fillDeliveryAdress() {
+    //This function fill the input fields with the following hardcoded values if there is no saved adress when ordering
     await this.companyInputField.fill("test");
     await this.streetAdressInputField.fill("test");
     await this.cityInputField.fill("test");
@@ -49,6 +50,7 @@ exports.CheckOutPage = class CheckOutPage {
   }
 
   async verifyTotalItemCountInSummaryBlock(expectedCount) {
+    //This functions compares the total count of items coming from the website to calculated total amount with test data
     const itemQuantitiesTotal = expectedCount.reduce(
       (total, quantity) => total + quantity,
       0
@@ -60,6 +62,7 @@ exports.CheckOutPage = class CheckOutPage {
   }
 
   async verifyItemDetailsInSummaryBlock(
+    //This method checks if the corresponding items details are displayed in the summary page when ordering (compares the test data with the data coming from the website)
     itemName,
     itemSize,
     itemColor,
@@ -100,6 +103,7 @@ exports.CheckOutPage = class CheckOutPage {
   }
 
   async verifyTheTotalAmount(itemUnitPrice, itemQuantities) {
+    //This method verifies the total amount is shown corrertly in the order page based on item base price, item quantities + shipping cost(which is 0 for this test framework)
     const shippingCostString = await this.shippingCostValue.textContent();
     const shippingCost = parseFloat(shippingCostString.replace("$", ""));
     const actualAmountString =
@@ -115,6 +119,7 @@ exports.CheckOutPage = class CheckOutPage {
   }
 
   async verifyShippingDetails() {
+    //This method verifies the shown shipping adress is matching with hardcoded adress
     const shippingDetails = (await this.shippingDetails.innerText())
       .split("\n")
       .join(" ");

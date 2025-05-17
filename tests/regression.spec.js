@@ -368,4 +368,25 @@ test.describe("Example Regression Test Suite for Luma E-Commerce App", () => {
     await checkOutPage.orderConfirmationTitle.waitFor({ state: "visible" });
     await checkOutPage.saveOrderNumber();
   });
+
+  test("TC#16 Verify that previously placed order content is corresponding to what was ordered", async ({
+    page,
+  }) => {
+    const myAccount = new MyAccount(page);
+
+    await myAccount.accountDropdown.click();
+    await myAccount.myAccountLink.click();
+    await myAccount.myOrders.click();
+    await page.waitForLoadState("networkidle");
+    await myAccount.goToLastOrder();
+    await myAccount.verifyCountOfItemRows(itemNames);
+    await myAccount.verifyAllItemDetailsInOrderHistory(
+      itemNames,
+      itemSizes,
+      itemColors,
+      itemBasePrices,
+      itemQuantities
+    );
+    await myAccount.verifyTheTotalAmount(itemBasePrices, itemQuantities);
+  });
 });
