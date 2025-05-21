@@ -46,7 +46,7 @@ This project contains a demo UI automation tests for the Luma E-Commerce demo si
 
 ## playwright.config.js
 The project uses the default PlayWright config file with some customizations. 
-* globalSetup: In order to bypass the login process in each test execution, a custom function is called, see `globalSetup: "./session_generator.js"`. Before any test, the function in the session_generator.js file logs in to the system and saves the user session to loginAuth.json, see `storageState:"./loginAuth.json"`. Except for some test cases, the browser will automatically log in with the context in the loginAuth.json file. 
+* globalSetup: In order to bypass the login process in each test execution, a custom function is called, see `globalSetup: "./session_generator.js"`. Before any test, the function in the session_generator.js file logs in to the system and saves the user session to loginAuth.json, see `storageState:"./loginAuth.json"` (this file will be generated after session_generator is executed). Except for some test cases, the browser will automatically log in with the context in the loginAuth.json file. 
 * Timeouts: The default test timeout is set to 60000ms, see `timeout: 60000`. And expect assertion timeout is set to 15000ms, see `expect: {timeout:15000}`.
 * Workers and Parallel Mode: Parallel test execution is disabled due to the logic of the test structure, and tests are running with 1 worker. See `fullyParallel: false` and ` workers: process.env.CI ? 1 : undefined`.
 * Reporting: For test results, the html reporter is defined, see `reporter: "html"`. In addition, for test artifacts `trace: "on-first-retry"`, `screenshot: "only-on-failure"`, `video: "retain-on-failure"` are also set.
