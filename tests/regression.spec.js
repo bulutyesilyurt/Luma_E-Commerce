@@ -71,7 +71,9 @@ test.describe("Example Regression Test Suite for Luma E-Commerce App", () => {
     await context.close();
   });
 
-  test("TC#5 Verify that the user can perform a log out", async ({ browser }) => {
+  test("TC#5 Verify that the user can perform a log out", async ({
+    browser,
+  }) => {
     const context1 = await browser.newContext({
       storageState: "./loginAuth.json",
     });
@@ -82,6 +84,7 @@ test.describe("Example Regression Test Suite for Luma E-Commerce App", () => {
     await login.navigateToSite();
     await myAccount.accountDropdown.click();
     await myAccount.signOutLink.click();
+    await page1.waitForLoadState("networkidle");
     await myAccount.verifySigningOut();
     await context1.close();
 

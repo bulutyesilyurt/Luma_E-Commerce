@@ -1,6 +1,6 @@
 {
-  "firstName": "Lilly",
-  "lastName": "Volkman",
-  "email": "Russell_Kuphal7@gmail.com",
-  "password": "x32nrJOrUO1haJ4"
+  "firstName": "Lamont",
+  "lastName": "Lakin-Herman",
+  "email": "Ansel_Cole@gmail.com",
+  "password": "8mLIrpb36IEodgk"
 }
