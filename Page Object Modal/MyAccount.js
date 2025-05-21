@@ -79,6 +79,7 @@ exports.MyAccount = class MyAccount {
     //This method clicks on view order details of the latest order
     const lastOrderID = await this.getLastOrderID();
     await this.lastOrderDetails(lastOrderID).click();
+    await this.page.waitForLoadState("networkidle");
   }
 
   async verifySigningOut() {
@@ -139,8 +140,7 @@ exports.MyAccount = class MyAccount {
     //This method verifies the grand subtotal is as expected based on shipping cost + item base prices and quantities
     const shippingCostString = await this.shippingCostValue.textContent();
     const shippingCost = parseFloat(shippingCostString.replace("$", ""));
-    const actualAmountString =
-      await this.grandTotal.textContent();
+    const actualAmountString = await this.grandTotal.textContent();
     const actualAmount = parseFloat(actualAmountString.replace("$", ""));
 
     let expectedTotal = 0 + shippingCost;

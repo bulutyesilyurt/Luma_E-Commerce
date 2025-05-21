@@ -7,7 +7,7 @@ exports.MainPage = class MainPage {
   constructor(page) {
     this.page = page;
     this.searchResultsText = page.locator(".base");
-    this.productItem = page.locator(".product-items .product-item");
+    this.productItem = page.locator(".list.product-items .product-item");
     this.productItemName = (i) =>
       this.productItem.nth(i).locator(".product-item-link");
     this.productItemPrice = (i) => this.productItem.nth(i).locator(".price");

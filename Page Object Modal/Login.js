@@ -1,3 +1,4 @@
+const { el } = require("@faker-js/faker");
 const { expect } = require("@playwright/test");
 const fs = require("fs");
 exports.Login = class Login {
@@ -14,6 +15,7 @@ exports.Login = class Login {
     this.loginURL =
       "https://magento.softwaretestingboard.com/customer/account/login/";
     this.baseURL = "https://magento.softwaretestingboard.com/";
+    this.disagreeButtonForPrivacy = page.locator("#disagree-btn");
   }
 
   async performValidLogin() {
@@ -64,6 +66,9 @@ exports.Login = class Login {
   async navigateToSite() {
     //This method navigates to the mainpage of the demo web app + a second of time out ensures the content loads properly and reduces test flakiness
     await this.page.goto(this.baseURL);
-    await this.page.waitForTimeout(3000)
+    await this.page.waitForTimeout(3000);
+    if (await this.disagreeButtonForPrivacy.isVisible()) {
+      await this.disagreeButtonForPrivacy.click();
+    }
   }
 };

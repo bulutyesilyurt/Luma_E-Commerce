@@ -21,7 +21,7 @@ test.describe("Example Regression Test Suite for Luma E-Commerce App", () => {
     itemQuantities = [1, 1];
   });
 
-  test("TC#1 Verify that the user is logged in with valid credentials", async ({
+  test("TC#1 Verify that the user details are shown correspondingly to actual user details", async ({
     page,
   }) => {
     const myAccount = new MyAccount(page);
@@ -71,7 +71,7 @@ test.describe("Example Regression Test Suite for Luma E-Commerce App", () => {
     await context.close();
   });
 
-  test("TC#5 Verify that the can perform a log out", async ({ browser }) => {
+  test("TC#5 Verify that the user can perform a log out", async ({ browser }) => {
     const context1 = await browser.newContext({
       storageState: "./loginAuth.json",
     });
